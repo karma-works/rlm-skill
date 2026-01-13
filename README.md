@@ -2,20 +2,31 @@
 
 > **"Context is an external resource, not a local variable."**
 
-This skill equips Claude Code (and compatible agents) with the **Recursive Language Model (RLM)** pattern described in the research paper:
+This skill equips Claude Code (and compatible agents like github copilot) with the **Recursive Language Model (RLM)** pattern described in the research paper:
 **[Recursive Language Modeling (ArXiv:2512.24601)](https://arxiv.org/pdf/2512.24601)**.
 
 It enables the agent to handle massive codebases (100+ files, millions of lines) by treating the filesystem as a database and using parallel background agents to process information recursively, eliminating "context rot".
 
 ## 📦 Installation
 
-Run this one-liner in your terminal:
+This project is built with Go. No external scripts are required.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/BowTiedSwan/rlm-skill/main/install.sh | bash
+# Clone the repository
+git clone https://github.com/BowTiedSwan/rlm-skill.git
+cd rlm-skill
+
+# Build and install the skill
+go build -o rlm rlm.go
+./rlm install
 ```
 
-Auto-detects Claude Code and installs the skill.
+The `install` command auto-detects **Claude Code** and **GitHub Copilot** and installs the skill locally using embedded resources.
+
+## 📜 Credits & Inspiration
+
+- **Original Inspiration**: This project was inspired by the work of **[Bowtiedswan](https://x.com/Bowtiedswan)**, who first prototyped the RLM pattern for AI agents.
+- **Research Paper**: [Recursive Language Modeling (ArXiv:2512.24601)](https://arxiv.org/pdf/2512.24601)
 
 ## 🚀 Usage
 
@@ -35,7 +46,7 @@ The skill triggers automatically on keywords like:
 The skill operates in two distinct modes to eliminate "context rot":
 
 1.  **Native Mode (Default)**: Optimized for **Zero-Shot Filtering**. It uses high-speed filesystem tools like `grep` and `find` for rapid codebase traversal and pattern discovery. Best for mapping project structure and locating specific definitions.
-2.  **Strict Mode (Paper Implementation)**: Optimized for **Dense Data Processing**. It uses the `rlm.py` engine to perform **Programmatic Slicing (Chunking)**. By loading data into memory and serving it in atomic chunks, it allows precise analysis of massive logs, monorepos, and CSVs that exceed standard context limits.
+2.  **Strict Mode (Paper Implementation)**: Optimized for **Dense Data Processing**. It uses the **Go-based `rlm` engine** to perform **Programmatic Slicing (Chunking)**. By loading data into memory and serving it in atomic chunks, it allows precise analysis of massive logs, monorepos, and CSVs that exceed standard context limits.
 
 ### The Pipeline
 1.  **Index**: The agent scans your file structure using `find` or `ls`.
@@ -43,7 +54,4 @@ The skill operates in two distinct modes to eliminate "context rot":
 3.  **Map**: It spawns multiple **parallel background agents**. Each sub-agent reads *one* file and answers *one* question.
 4.  **Reduce**: The main agent collects the structured outputs and synthesizes the final answer.
 
-## 📜 Credits
 
-- **Research Paper**: [Recursive Language Modeling](https://arxiv.org/pdf/2512.24601)
-- **Skill Author**: [Bowtiedswan](https://x.com/Bowtiedswan)
