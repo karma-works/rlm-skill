@@ -1,0 +1,21 @@
+{
+    "name": "rlm-skill",
+    "version": "1.0.0",
+    "description": "Recursive Language Model (RLM) Skill for Claude Code",
+    "main": "dist/rlm.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "ts-node rlm.ts"
+    },
+    "dependencies": {
+        "commander": "^11.1.0",
+        "glob": "^10.3.10",
+        "fs-extra": "^11.2.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.3.3",
+        "ts-node": "^10.9.2",
+        "@types/node": "^20.11.0",
+        "@types/fs-extra": "^11.0.4"
+    }
+}

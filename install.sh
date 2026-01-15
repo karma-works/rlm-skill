@@ -17,24 +17,32 @@ if [ -d "$HOME/.claude" ]; then
     echo -e "${GREEN}✓ Claude Code detected${NC}"
     mkdir -p "$SKILL_DIR"
     
-    echo -e "${GRAY}Downloading skill definition...${NC}"
+    echo -e "${GRAY}Downloading skill files...${NC}"
     curl -sSL "$REPO_BASE/SKILL.md" -o "$SKILL_DIR/SKILL.md"
+    curl -sSL "$REPO_BASE/rlm.ts" -o "$SKILL_DIR/rlm.ts"
+    curl -sSL "$REPO_BASE/package.json" -o "$SKILL_DIR/package.json"
+    curl -sSL "$REPO_BASE/tsconfig.json" -o "$SKILL_DIR/tsconfig.json"
     
-    echo -e "${GRAY}Downloading python engine (rlm.py)...${NC}"
-    curl -sSL "$REPO_BASE/rlm.py" -o "$SKILL_DIR/rlm.py"
+    echo -e "${GRAY}Installing dependencies...${NC}"
+    cd "$SKILL_DIR"
+    npm install
     
     echo ""
     echo -e "${GREEN}> /rlm installed successfully${NC}"
     echo -e "${GRAY}  Skill: $SKILL_DIR/SKILL.md${NC}"
-    echo -e "${GRAY}  Engine: $SKILL_DIR/rlm.py${NC}"
+    echo -e "${GRAY}  Engine: $SKILL_DIR/rlm.ts${NC}"
     echo ""
     exit 0
 else
     echo "Claude Code directory (~/.claude) not found."
-    echo "Creating standard directory anyway..."
+    echo "Creating directory anyway..."
     mkdir -p "$SKILL_DIR"
     curl -sSL "$REPO_BASE/SKILL.md" -o "$SKILL_DIR/SKILL.md"
-    curl -sSL "$REPO_BASE/rlm.py" -o "$SKILL_DIR/rlm.py"
+    curl -sSL "$REPO_BASE/rlm.ts" -o "$SKILL_DIR/rlm.ts"
+    curl -sSL "$REPO_BASE/package.json" -o "$SKILL_DIR/package.json"
+    curl -sSL "$REPO_BASE/tsconfig.json" -o "$SKILL_DIR/tsconfig.json"
+    cd "$SKILL_DIR"
+    npm install
     echo -e "${GREEN}> /rlm installed${NC}"
     exit 0
 fi

@@ -24,18 +24,18 @@ Decide based on the nature of the data:
 | Engine | Use Case | Tool |
 |--------|----------|------|
 | **Native Mode** | General codebase traversal, finding files, structure. | `find`, `grep`, `bash` |
-| **Strict Mode** | Dense data analysis (logs, CSVs, massive single files). | `python3 ~/.claude/skills/rlm/rlm.py` |
+| **Strict Mode** | Dense data analysis (logs, CSVs, massive single files). | `npx ts-node ~/.claude/skills/rlm/rlm.ts` |
 
 ### Phase 2: Index & Filter (The "Peeking" Phase)
 **Goal**: Identify relevant data without loading it.
 1.  **Native**: Use `find` or `grep -l`.
-2.  **Strict**: Use `python3 .../rlm.py peek "query"`.
+2.  **Strict**: Use `npx ts-node .../rlm.ts peek "query"`.
     *   *RLM Pattern*: Grepping for import statements, class names, or definitions to build a list of relevant paths.
 
 ### Phase 3: Parallel Map (The "Sub-Query" Phase)
 **Goal**: Process chunks in parallel using fresh contexts.
 1.  **Divide**: Split the work into atomic units.
-    - **Strict Mode**: `python3 .../rlm.py chunk --pattern "*.log"` -> Returns JSON chunks.
+    - **Strict Mode**: `npx ts-node .../rlm.ts chunk --pattern "*.log"` -> Returns JSON chunks.
 2.  **Spawn**: Use `background_task` to launch parallel agents.
     *   *Constraint*: Launch at least 3-5 agents in parallel for broad tasks.
     *   *Prompting*: Give each background agent ONE specific chunk or file path.
@@ -51,8 +51,8 @@ Decide based on the nature of the data:
 
 1.  **NEVER** use `cat *` or read more than 3-5 files into your main context at once.
 2.  **ALWAYS** prefer `background_task` for reading/analyzing file contents when the file count > 1.
-3.  **Use `rlm.py`** for programmatic slicing of large files that `grep` can't handle well.
-4.  **Python is your Memory**: If you need to track state across 50 files, write a Python script (or use `rlm.py`) to scan them and output a summary.
+3.  **Use `rlm.ts`** for programmatic slicing of large files that `grep` can't handle well.
+4.  **TypeScript is your Memory**: If you need to track state across 50 files, write a TypeScript script (or use `rlm.ts`) to scan them and output a summary.
 
 ## Example Workflow: "Find all API endpoints and check for Auth"
 
@@ -74,6 +74,6 @@ Decide based on the nature of the data:
 
 ## Recovery Mode
 If `background_task` is unavailable or fails:
-1.  Fall back to **Iterative Python Scripting**.
-2.  Write a Python script that loads each file, runs a regex/AST check, and prints the result to stdout.
+1.  Fall back to **Iterative TypeScript Scripting**.
+2.  Write a TypeScript script that loads each file, runs a regex/AST check, and prints the result to stdout.
 3.  Read the script's stdout.

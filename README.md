@@ -35,7 +35,7 @@ The skill triggers automatically on keywords like:
 The skill operates in two distinct modes to eliminate "context rot":
 
 1.  **Native Mode (Default)**: Optimized for **Zero-Shot Filtering**. It uses high-speed filesystem tools like `grep` and `find` for rapid codebase traversal and pattern discovery. Best for mapping project structure and locating specific definitions.
-2.  **Strict Mode (Paper Implementation)**: Optimized for **Dense Data Processing**. It uses the `rlm.py` engine to perform **Programmatic Slicing (Chunking)**. By loading data into memory and serving it in atomic chunks, it allows precise analysis of massive logs, monorepos, and CSVs that exceed standard context limits.
+2.  **Strict Mode (Paper Implementation)**: Optimized for **Dense Data Processing**. It uses the `rlm.ts` engine to perform **Programmatic Slicing (Chunking)**. By loading data into memory and serving it in atomic chunks, it allows precise analysis of massive logs, monorepos, and CSVs that exceed standard context limits.
 
 ### The Pipeline
 1.  **Index**: The agent scans your file structure using `find` or `ls`.
