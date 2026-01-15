@@ -43,6 +43,12 @@ The skill triggers automatically on keywords like:
 
 ## 🧠 How It Works
 
+The skill operates in two distinct modes to eliminate "context rot":
+
+1.  **Native Mode (Default)**: Optimized for **Zero-Shot Filtering**. It uses high-speed filesystem tools like `grep` and `find` for rapid codebase traversal and pattern discovery. Best for mapping project structure and locating specific definitions.
+2.  **Strict Mode (Paper Implementation)**: Optimized for **Dense Data Processing**. It uses the **Go-based `rlm` engine** to perform **Programmatic Slicing (Chunking)**. By loading data into memory and serving it in atomic chunks, it allows precise analysis of massive logs, monorepos, and CSVs that exceed standard context limits.
+
+### The Pipeline
 1.  **Index**: The agent scans your file structure using `find` or `ls`.
 2.  **Filter**: It uses `grep` / `ripgrep` to narrow down candidate files (Zero-Shot Filtering).
 3.  **Map**: It spawns multiple **parallel background agents**. Each sub-agent reads *one* file and answers *one* question.
